@@ -12,34 +12,40 @@ def err_msg():
 	exit()
 
 
+def nlp_approach():
+	filename = "json-files/article0.json"
+	print("processing file:", filename)
+	sentences = clean_article_text.produce_filtered_sentence_data(filename)[0]
+	process_table_data.get_tables()
+	tuples = []
+	for sentence in sentences:
+		sen = structure_sentence.Structure_Sentence(sentence)
+		obj = sen.json_object
+		#tp = generate_tuples.remove_empty_tuples(tp)
+		#entity_pairs = generate_tuples.one_to_one_mapping(res)
+		tuples += obj
+	
+	for tp in tuples:
+		if tp != ([],[],[],[]):
+			print(tp)
+
+
+def table_approach():
+	process_table_data.process_tables()
+
+
+
 
 def main():
-	
 	args = sys.argv
 	if len(args) == 1 or len(args) > 2:
 		err_msg()
 
 	flag = args[1]
 	if flag == "-nlp":
-		filename = "json-files/article0.json"
-		print("processing file:", filename)
-		sentences = clean_article_text.produce_filtered_sentence_data(filename)[0]
-		process_table_data.get_tables()
-		tuples = []
-		for sentence in sentences:
-			sen = structure_sentence.Structure_Sentence(sentence)
-			obj = sen.json_object
-			#tp = generate_tuples.remove_empty_tuples(tp)
-			#entity_pairs = generate_tuples.one_to_one_mapping(res)
-			tuples += obj
-		
-		for tp in tuples:
-			if tp != ([],[],[],[]):
-				print(tp)
-
+		nlp_approach()		
 	elif flag == "-t":
-		process_table_data.get_tables()
-
+		table_approach()
 	else:
 		err_msg()
 
