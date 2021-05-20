@@ -3,6 +3,7 @@ from os import listdir
 from os.path import isfile, join
 import pandas as pd
 from pandas import ExcelWriter
+from table_extraction import compile_table_data as data_compiler
 
 
 def material_lookup_table(tables):
@@ -29,15 +30,16 @@ def pair_material_to_data(tables):
 			#print("material:", material, '\tcolumn names:', column_names)
 
 
-def get_tables():
+def process_tables():
 	mypath = "./xml-files"
 	onlyfiles = [join(mypath,f) for f in listdir(mypath) if isfile(join(mypath, f))]
 	print("processing tables from:", onlyfiles)
-
-	tables = scraper.scrape_table_data(onlyfiles)
-	lookup_table = material_lookup_table(tables)
-	
-	#pair_material_to_data(tables)
+	onlyfiles = [onlyfiles[0]]
+	for file in onlyfiles:
+		#scrape tables from xml of file
+		tables = scraper.scrape_table_data(file)
+		lookup_table = material_lookup_table(tables)
+		data_compiler.compile_to_one_table(lookup_table)		
 
 
 if __name__ == '__main__':

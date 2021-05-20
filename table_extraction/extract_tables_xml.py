@@ -21,9 +21,9 @@ def properly_formatted_table(table):
 
 
 
-def scrape_table_data(files):
+def scrape_table_data(input_file):
 	writer = ExcelWriter('extracted_tables.xlsx')
-	with open(files[0]) as file:
+	with open(input_file) as file:
 		xml_doc = file.read()
 	soup = BeautifulSoup(xml_doc, "lxml-xml")
 	tables = soup.find_all("table")
