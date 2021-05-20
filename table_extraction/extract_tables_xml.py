@@ -3,7 +3,6 @@ from os import listdir
 from os.path import isfile, join
 import pandas as pd
 from pandas import ExcelWriter
-from table_extraction import save_article_xml as xmls
 
 
 
@@ -21,6 +20,39 @@ def properly_formatted_table(table):
 	return True
 
 
+
+def scrape_table_data(files):
+	writer = ExcelWriter('extracted_tables.xlsx')
+	with open(files[0]) as file:
+		xml_doc = file.read()
+	soup = BeautifulSoup(xml_doc, "lxml-xml")
+	tables = soup.find_all("table")
+	all_tables = []
+	for i, table in enumerate(tables):
+		reconstructed_table = []
+		num_columns = table.find_all("tgroup")[0]["cols"]
+		table_rows = table.find_all("row")
+		for j, tr in enumerate(table_rows):
+			row = [None] * int(num_columns)
+			td = tr.find_all('entry')
+			for data in td:
+				text = data.text.strip().replace("\n", " ")
+				try:
+					column = int(data["colname"][-1])
+					row[column-1] = text
+				except:
+					pass
+					#print("colname not found in table {} row {}".format(i+1, j+1))
+			reconstructed_table.append(row)
+					
+		df = pd.DataFrame(reconstructed_table)
+		all_tables.append(df)
+		#df.to_excel(writer,'table{}'.format(i))
+		#writer.save()
+
+	return all_tables
+
+'''
 def scrape_table_data(files):
 	writer = ExcelWriter('extracted_tables_better_all_articles.xlsx')
 	total_tables = 0
@@ -51,10 +83,10 @@ def scrape_table_data(files):
 			df.to_excel(writer,'table{}'.format(total_tables))
 			writer.save()
 			all_tables.append(df)
-	'''
+	
 	print("total tables:", total_tables)
 	print("bad tables:", bad_tables)
 	print("percentage bad tables:", round(float(bad_tables / total_tables * 100), 2), "%")
-	'''
+	
 	return all_tables
-
+'''

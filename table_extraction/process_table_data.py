@@ -30,18 +30,13 @@ def pair_material_to_data(tables):
 
 
 def get_tables():
-	#piis = ["S0008884619311421", "S0950061820301434", "S0008884619316515", "S0958946514001863", "S0958946516302517", "S0008884611002274", "S0950061819316277"]	
-	#xmls.get_xml(piis)
 	mypath = "./xml-files"
 	onlyfiles = [join(mypath,f) for f in listdir(mypath) if isfile(join(mypath, f))]
-	print(onlyfiles)
+	print("processing tables from:", onlyfiles)
+
 	tables = scraper.scrape_table_data(onlyfiles)
-	table = material_lookup_table(tables)
-	writer = ExcelWriter("CaO_tables.xlsx")
-	cao_tables = table["CaO"]
-	for i, table in enumerate(cao_tables):
-		table.to_excel(writer,'table{}'.format(i))
-		writer.save()
+	lookup_table = material_lookup_table(tables)
+	
 	#pair_material_to_data(tables)
 
 
