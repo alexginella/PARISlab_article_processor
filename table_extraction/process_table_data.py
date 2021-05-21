@@ -9,8 +9,7 @@ from table_extraction import compile_table_data as data_compiler
 def material_lookup_table(tables):
 	material_to_tables = {}
 	for table in tables:
-		materials = table.iloc[:,0]
-		materials = materials[1:]
+		materials = list(table.iloc[:,0])[2:] #we dont want the column names or article name so omit the first two rows
 		for material in materials:
 			try: 
 				material_to_tables[material].append(table)
@@ -34,12 +33,12 @@ def process_tables():
 	mypath = "./xml-files"
 	onlyfiles = [join(mypath,f) for f in listdir(mypath) if isfile(join(mypath, f))]
 	print("processing tables from:", onlyfiles)
-	onlyfiles = [onlyfiles[0]]
+	onlyfiles = [onlyfiles[1]]
 	for file in onlyfiles:
 		#scrape tables from xml of file
-		tables = scraper.scrape_table_data(file)
+		tables = scraper.scrape_table_data_old(file)
 		lookup_table = material_lookup_table(tables)
-		data_compiler.compile_to_one_table(lookup_table)		
+		data_compiler.compile_to_one_table(lookup_table, tables)		
 
 
 if __name__ == '__main__':

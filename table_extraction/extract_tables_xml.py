@@ -52,41 +52,41 @@ def scrape_table_data(input_file):
 
 	return all_tables
 
-'''
-def scrape_table_data(files):
-	writer = ExcelWriter('extracted_tables_better_all_articles.xlsx')
+
+def scrape_table_data_old(file):
+	#writer = ExcelWriter('article1_tables_to_compile.xlsx')
 	total_tables = 0
 	bad_tables = 0
 	all_tables = []
-	for file in files:
-		with open(file) as f:
-			xml_doc = f.read()
-		soup = BeautifulSoup(xml_doc, "lxml-xml")
-		tables = soup.find_all('table')
-		title = soup.find('title')
-		title = title.text.strip()
-		for i, table in enumerate(tables):
-			total_tables += 1
-			if not properly_formatted_table(table):
-				#print("table {}".format(total_tables), "not formatted prpoperly")
-				bad_tables += 1
-				continue
-			l = []
-			l.append(["article:", title])
-			table_rows = table.find_all('row')
-			for tr in table_rows:
-				td = tr.find_all('entry')
-				row = [data.text.strip().replace("\n", " ") for data in td]
-				if len(row) != 0:
-					l.append(row)
-			df = pd.DataFrame(l)
-			df.to_excel(writer,'table{}'.format(total_tables))
-			writer.save()
-			all_tables.append(df)
-	
+
+	with open(file) as f:
+		xml_doc = f.read()
+	soup = BeautifulSoup(xml_doc, "lxml-xml")
+	tables = soup.find_all('table')
+	title = soup.find('title')
+	title = title.text.strip()
+	for i, table in enumerate(tables):
+		total_tables += 1
+		if not properly_formatted_table(table):
+			#print("table {}".format(total_tables), "not formatted prpoperly")
+			bad_tables += 1
+			continue
+		l = []
+		l.append(["article:", title])
+		table_rows = table.find_all('row')
+		for tr in table_rows:
+			td = tr.find_all('entry')
+			row = [data.text.strip().replace("\n", " ") for data in td]
+			if len(row) != 0:
+				l.append(row)
+		df = pd.DataFrame(l)
+		#df.to_excel(writer,'table{}'.format(total_tables))
+		#writer.save()
+		all_tables.append(df)
+
 	print("total tables:", total_tables)
 	print("bad tables:", bad_tables)
 	print("percentage bad tables:", round(float(bad_tables / total_tables * 100), 2), "%")
 	
 	return all_tables
-'''
+
