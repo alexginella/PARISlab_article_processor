@@ -5,8 +5,18 @@ import pandas as pd
 from pandas import ExcelWriter
 from table_extraction import compile_table_data as data_compiler
 
+#tables talking about oxides in columns only
+def tables_of_interest(tables):
+	interesting_tables = []
+	for table in tables:
+		col_names = data_compiler.find_column_names(table)
+		if "Al2O3" in col_names:
+			interesting_tables.append(table)
+			#table contains oxides
+	return interesting_tables
 
 def material_lookup_table(tables):
+	tables = tables_of_interest(tables)
 	material_to_tables = {}
 	for table in tables:
 		materials = list(table.iloc[:,0])[2:] #we dont want the column names or article name so omit the first two rows
@@ -29,11 +39,8 @@ def pair_material_to_data(tables):
 			#print("material:", material, '\tcolumn names:', column_names)
 
 
-def process_tables():
-	mypath = "./xml-files"
-	onlyfiles = [join(mypath,f) for f in listdir(mypath) if isfile(join(mypath, f))]
-	print("processing tables from:", onlyfiles)
-	onlyfiles = [onlyfiles[1]]
+def process_tables(onlyfiles):
+	#onlyfiles = [onlyfiles[-1]]
 	for file in onlyfiles:
 		#scrape tables from xml of file
 		tables = scraper.scrape_table_data_old(file)

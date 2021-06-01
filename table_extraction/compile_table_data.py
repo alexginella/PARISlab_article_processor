@@ -22,7 +22,7 @@ def create_column_buckets(tables):
 	return column_name_to_number
 
 def compile_to_one_table(lookup_table, tables):
-	writer = ExcelWriter("./table_extraction/compiled_article1_test1.xlsx")
+	writer = ExcelWriter("./output.xlsx")
 	materials = set(lookup_table.keys()) #all unique materials 
 	map_col_name_to_index = create_column_buckets(tables)
 
@@ -39,7 +39,7 @@ def compile_to_one_table(lookup_table, tables):
 			material_row_number = list(table.iloc[:,0]).index(material) #row containing data for material
 			column_names = find_column_names(table)
 			material_row = list(table.iloc[material_row_number])
-			if column_names[0]:
+			if column_names[0]:		#material has a name in the column
 				material_name_and_type = material_row[0] + " (" + column_names[0] + ")"
 			else:
 				material_name_and_type = material_row[0]
@@ -49,7 +49,7 @@ def compile_to_one_table(lookup_table, tables):
 				index = map_col_name_to_index[data[1]]
 				compiled_table[0][index] = data[1] #ensure the column names and data match up
 				row[index] = data[0]
-			compiled_table.append(row)
+		compiled_table.append(row)
 
 	df = pd.DataFrame(compiled_table)
 	df.to_excel(writer)
