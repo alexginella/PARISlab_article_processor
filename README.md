@@ -1,3 +1,5 @@
+NOTE: Commands given are for the ubuntu subsystem on windows (download ubuntu in microsoft store)
+
 1) 	create a new python virtual environment:
 	python -m venv ENVIRONMENT_NAME
 
