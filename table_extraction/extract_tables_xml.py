@@ -20,9 +20,13 @@ def properly_formatted_table(table):
 	return True
 
 
-
-def scrape_table_data(input_file):
-	writer = ExcelWriter('extracted_tables.xlsx')
+# this function scrapes the data from all tables
+# while maintaining the formatting of the data
+# by finding the column number of each data value
+# in the xml tag, it isn't working quite right,
+# some of the tables only have "None" values
+def scrape_table_data_experimental(input_file):
+	#writer = ExcelWriter('extracted_tables.xlsx')
 	with open(input_file) as file:
 		xml_doc = file.read()
 	soup = BeautifulSoup(xml_doc, "lxml-xml")
@@ -44,6 +48,9 @@ def scrape_table_data(input_file):
 					pass
 					#print("colname not found in table {} row {}".format(i+1, j+1))
 			reconstructed_table.append(row)
+		for row in reconstructed_table:
+			print(row)
+		print()
 					
 		df = pd.DataFrame(reconstructed_table)
 		all_tables.append(df)
@@ -53,7 +60,7 @@ def scrape_table_data(input_file):
 	return all_tables
 
 
-def scrape_table_data_old(file):
+def scrape_table_data(file):
 	#writer = ExcelWriter('article1_tables_to_compile.xlsx')
 	total_tables = 0
 	bad_tables = 0

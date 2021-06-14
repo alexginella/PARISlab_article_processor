@@ -5,6 +5,7 @@ from os.path import isfile, join
 from NLP_Pipeline import Run_NLP
 
 def err_msg():
+    print("ERROR: Invalid usage, please follow directions below:")
     print("Usage: add -t path/to/directory path leads to directory of article xml files")
     print("       add -nlp path/to/directory path leads to directory of article json files")
     exit()
