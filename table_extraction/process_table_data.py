@@ -43,7 +43,7 @@ def process_tables(onlyfiles):
 	#onlyfiles = [onlyfiles[-1]]
 	for file in onlyfiles:
 		#scrape tables from xml of file
-		tables = scraper.scrape_table_data_old(file)
+		tables = scraper.scrape_table_data(file)
 		lookup_table = material_lookup_table(tables)
 		data_compiler.compile_to_one_table(lookup_table, tables)		
 
