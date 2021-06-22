@@ -6,6 +6,9 @@ from pandas import ExcelWriter
 from table_extraction import compile_table_data as data_compiler
 
 #tables talking about oxides in columns only
+#TODO: this is hardcoded right now for AL203
+#ideally there is a better way to detect if a table
+#contains oxides
 def tables_of_interest(tables):
 	interesting_tables = []
 	for table in tables:
@@ -15,6 +18,10 @@ def tables_of_interest(tables):
 			#table contains oxides
 	return interesting_tables
 
+
+#returns a dictionary that maps a material
+#to all the tables in an article that mention
+#that material in the first column
 def material_lookup_table(tables):
 	tables = tables_of_interest(tables)
 	material_to_tables = {}
@@ -27,7 +34,8 @@ def material_lookup_table(tables):
 				material_to_tables[material] = [table]
 	return material_to_tables
 
-
+#yeah uh i dont think this one is finished
+#does... something probably used in compile_table_data
 def pair_material_to_data(tables):
 	lookup_table = material_lookup_table(tables)
 	mats = lookup_table.keys()
@@ -39,6 +47,7 @@ def pair_material_to_data(tables):
 			#print("material:", material, '\tcolumn names:', column_names)
 
 
+#main
 def process_tables(onlyfiles):
 	#onlyfiles = [onlyfiles[-1]]
 	for file in onlyfiles:
@@ -46,7 +55,3 @@ def process_tables(onlyfiles):
 		tables = scraper.scrape_table_data(file)
 		lookup_table = material_lookup_table(tables)
 		data_compiler.compile_to_one_table(lookup_table, tables)		
-
-
-if __name__ == '__main__':
-	get_tables()

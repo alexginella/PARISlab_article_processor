@@ -5,7 +5,7 @@ import pandas as pd
 from pandas import ExcelWriter
 
 
-
+#only used by non experimental scraper
 def properly_formatted_table(table):
 	prev_row_length = 0
 	table_rows = table.find_all('row')
@@ -60,6 +60,8 @@ def scrape_table_data_experimental(input_file):
 	return all_tables
 
 
+#returns a list of pandas dataframes each 
+#representing a table from the article
 def scrape_table_data(file):
 	#writer = ExcelWriter('article1_tables_to_compile.xlsx')
 	total_tables = 0
@@ -71,9 +73,14 @@ def scrape_table_data(file):
 	soup = BeautifulSoup(xml_doc, "lxml-xml")
 	tables = soup.find_all('table')
 	title = soup.find('title')
+
+	#get only the text not whitespace
 	title = title.text.strip()
 	for i, table in enumerate(tables):
 		total_tables += 1
+
+		# a "properly formatted table" is square with
+		# no missing entries
 		if not properly_formatted_table(table):
 			#print("table {}".format(total_tables), "not formatted prpoperly")
 			bad_tables += 1
