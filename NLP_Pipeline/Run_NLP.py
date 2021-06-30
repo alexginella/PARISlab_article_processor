@@ -14,12 +14,12 @@ def launch(sentence, dir_name):
     #            surroundings. As a result, the stress build-up in concrete is reduced. These small air voids are usually intentionally \
     #            entrained into the concrete during fabrication. The diameter of these small air voids is less than 200 um."
                 
-
+    TG = TupleGenerator.TupleGenerator()
+    TH = TupleEnhancer.TupleEnhancer()
+        
     if sentence:
         # -- The whole pipeline is to generate tuples
         # - Make enhancements, and removing stop words 
-        TG = TupleGenerator.TupleGenerator()
-        TH = TupleEnhancer.TupleEnhancer()
         G = KGBuilder.KnowledgeGraphBuilder()
         
         res, tuples = TG.generate_tuples(sentence)
