@@ -1,0 +1,20 @@
+These are some tasks you might want to look at doing to get you pointed in the right direction,
+these will be focused primarily on the table extraction side of things since it is the easiest 
+to work on and get familiar with. Don't feel obligated to only do these tasks or to do them in a
+particular order, if you feel like there's something else you wanna work on or improve instead then
+by all means go ahead, this is just meant to be a guide for if you don't know what to do/where to start.
+The tasks below are ordered from what I think is most approachable to most difficult in
+terms of how familiar you are with the code, but not necessarily in overall difficulty. Anyway,
+enjoy!
+-Alex
+
+
+1) get automatic article downloader thingy to work (either the one Samy shared with you on github or the one at: https://github.com/olivettigroup/article-downloader)
+
+2) plug in the "scrape_table_data_experimental" function in the extract_tables_xml.py file and get everything to work (just change either the function call in ptocess_table_data.py line 55 or change the name of the function itself)
+
+3) find a better method for detecting whether or not a table contains interesting information (check the table_of_interest function at the top of the process_table_data.py file) at the moment it is just hardcoded to look for "Al203" in the first row of the table in an effort to isolate tables containing oxide data. Ideally what I was thinking was that the user could input something that would determine which kind of tables they want processed (oxides, compressive strength values, etc...) but I'll leave that up to you
+
+4) currently the table processing assumes that the names for the types of the data values (e.g oxide composition %, compressive strength, % water, % oxide) are in the top row of the table and the names of the concrete specimens are located in the first column of the table. Of course this is not the case and many of the tables have the names of the specimens in the first row of the table and the type of the value in the first column (visa versa). Find a way to account for this and be able to parse any table regardless of its orientation
+
+5) use the working article downloader script and working table extraction pipeline to try and recreate (as best as possible) the data collected by the olivetti group which can be found near the bottom of this article: https://www.nature.com/articles/sdata2017127 
