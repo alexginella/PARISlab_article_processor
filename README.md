@@ -17,4 +17,4 @@ NOTE: Commands given are for the ubuntu subsystem on windows (download ubuntu in
 	add -t path/to/directory path leads to directory of article xml files
        	add -nlp path/to/directory path leads to directory of article json files
 
-	ex: python run_pipeline.py -nlp ./json_files
+	ex: python run_pipeline.py -nlp ./json-files
